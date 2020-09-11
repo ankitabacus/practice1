@@ -1,0 +1,64 @@
+<ion-header>
+    
+    <ion-navbar>
+        <!-- <ion-title *ngIf="distributor_main == 1">My Distributor</ion-title> -->
+        <ion-title>My Lead</ion-title>
+
+        <ion-buttons end *ngIf="dealer_lead == '1'">
+            <button ion-button icon-only color="light" (click)="add_dealer_lead()">
+                <ion-icon name="md-add-circle"></ion-icon>
+            </button>
+        </ion-buttons>
+
+        <ion-buttons end *ngIf="distributor_lead == '1'">
+            <button ion-button icon-only color="light" (click)="add_distributor_lead()">
+                <ion-icon name="md-add-circle"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>    
+</ion-header>
+
+
+<ion-content>
+
+        <div class="nothing-here" *ngIf="(lead_list.length == 0) && (load_data == '1') ">
+                <div class="outer">
+                    <div class="innear">
+                        <img src="assets/no-found/not-found-data.gif" alt="">
+                        <p>Opps! Nothing is here.</p>
+                    </div>
+                </div>
+            </div>
+    
+    <div class="prlist">
+
+          
+        
+        <div class="box light-red-bg relative" *ngFor="let data of lead_list" (click)="lead_detail(data.id)">
+            <div class="heading">
+                <div class="dist-name dflex">
+                    <div class="first-leter">{{data.company_name.substring(0,1).toUpperCase()}}</div>
+                    <div class="name-number">
+                        <p>{{data.company_name | titlecase}}</p>
+                        <a class="f14">{{data.mobile}}</a>
+                    </div>
+                </div>
+                <div class="wp100 dflex">
+                    <h1>{{data.date_created | date: 'MMM d, y'}}</h1>
+                </div>
+            </div>
+            <p class="cs-type" ><i class="material-icons">place</i>{{data.district | titlecase}}, {{data.state | titlecase}} {{data.pincode}}</p>
+            <!-- <p class="cs-type" *ngIf="!data.state && !data.district && !data.pinocode"><i class="material-icons">place</i>N A</p> -->
+
+        </div>
+
+    </div>
+    
+</ion-content>
+
+<ion-footer class="csm-footer-tabs">
+    <div class="ftabs">
+        <button ion-item [ngClass]="{'active': lead_type == 'Dealer'}" (click)="distributor_lead_list('Dealer');dealer()"><p>Dealers</p> <span class="counter">{{dealer_lead_count}}</span></button>
+        <button ion-item (click)="distributor_lead_list('Lead');lead()" [ngClass]="{'active': lead_type == 'Lead'}"><p>Distributor</p> <span class="counter">{{distributor_lead_count}}</span></button>
+    </div>
+</ion-footer> 

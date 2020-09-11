@@ -1,0 +1,53 @@
+<ion-menu  [content]="content" side="start" id="first" [swipeEnabled]="(user_logged_in) ? true : false">
+    <ion-content>
+        <div class="home-list" style="position: sticky;top: 0px;">
+            <button ion-item>
+                <div class="thumb">
+                    <div class="outer">
+                        <div class="innear">
+                            <p *ngIf="userLoggedDisplayName!=undefined" >{{userLoggedDisplayName[0]}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="description">
+                    <div class="outer">
+                        <div class="innear">
+                            <h2>{{userLoggedDisplayName}}</h2>
+                            <ion-icon name="ios-arrow-forward-outline"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+            </button>
+        </div>
+        
+        <span *ngFor="let p of pages">
+            <div *ngIf="p.show" class="option" menuClose (click)="((userRoleId != '' || userRoleId != undefined) && this.userType == 'MARKET') ?  openPage(p): openPage1(p)">
+                <div class="outer">
+                    <div class="innear">
+                        <i class="material-icons">{{p.icon}}</i>
+                        <a href="#">{{p.title}}</a>
+                    </div>
+                </div>
+            </div>
+        </span>
+    </ion-content>
+    
+    <ion-footer style="background: #fff !important;">
+        <div *ngIf="!user_logged_in" class="login-btn m16 mt0" menuClose  (click)="Login()">
+            <div class="outer">
+                <div class="innear">
+                    <button ion-button round block>LOGIN</button>
+                </div>
+            </div>
+        </div>
+        <div class="login-btn m16" *ngIf="user_logged_in" menuClose  (click)="logout()">
+            <div class="outer">
+                <div class="innear">
+                    <button ion-button round block><i class="material-icons mr20">power_settings_new</i>LOGOUT</button>
+                </div>
+            </div>
+        </div>
+    </ion-footer>
+    
+</ion-menu>
+<ion-nav  [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

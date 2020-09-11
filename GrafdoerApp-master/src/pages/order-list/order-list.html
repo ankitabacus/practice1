@@ -1,0 +1,111 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            <h1>Order</h1>
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only color="light" (click)="add_primary_order()">
+                <ion-icon name="md-add-circle"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <div class="nothing-here" *ngIf="order_List == '' && load_data == '1'">
+        <div class="outer">
+            <div class="innear">
+                <img src="assets/imgs/nothing.svg" alt="">
+                <p>Data not found</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nothing-here" *ngIf="order_List2 == '' && load_data == '1'">
+        <div class="outer">
+            <div class="innear">
+                <img src="assets/imgs/nothing.svg" alt="">
+                <p>Data not found</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="list-outer ordlist">
+        <div class="list-inner" [ngClass]="{'pending': val.order_status == 'Pending', 'reject': val.order_status == 'Reject', 'approved': val.order_status == 'Approved' }" *ngFor="let val of order_List" (click)="goOnOrderDetail(val.id)">
+            <div class="heading" >
+                <p *ngIf="val.order_status != ''">{{val.order_status}}</p>
+                <p *ngIf="val.delivery_from != 'Gravity'">Secondary Order</p>
+                <span><i class="material-icons">insert_invitation</i>{{val.date_created | date:'MMM d, y'}}</span>
+            </div>
+            <div style="padding: 0px 16px;">
+                <div class="min-heading">
+                    <div class="cs-l">
+                        <h2>{{val.company_name | titlecase}}</h2>
+                        <p>{{val.mobile}}</p>
+                    </div>
+                    <div class="cs-r">
+                        <p>&#x20B9; {{val.order_total}}</p>
+                    </div>
+                </div>
+                <div class="oneinfo first-fw">
+                    <div class="figure">
+                        <p>Created By</p>
+                        <p>{{val.order_creator}}</p>
+                    </div>
+                    <div class="figure">
+                        <p>Order ID</p>
+                        <p>#ORD-{{val.id}}</p>
+                    </div>
+                    <div class="figure">
+                        <p>Total Item</p>
+                        <p>{{val.order_item}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="list-inner default" [ngClass]="{'pending': val.order_status == 'Pending', 'reject': val.order_status == 'Reject', 'approved': val.order_status == 'Approved' }" *ngFor="let val of order_List2" (click)="goOnOrderDetail(val.id)">
+            <div class="heading" >
+                <p *ngIf="val.order_status != ''">{{val.order_status}}</p>
+                <span><i class="material-icons">insert_invitation</i>{{val.date_created | date:'MMM d, y'}}</span>
+            </div>
+            <div style="padding: 0px 16px;">
+                <div class="min-heading">
+                    <div class="cs-l">
+                        <h2>{{val.company_name | titlecase}}</h2>
+                        <p>{{val.mobile}}</p>
+                    </div>
+                    <div class="cs-r">
+                        <p>&#x20B9; {{val.order_total}}</p>
+                    </div>
+                </div>
+                <div class="oneinfo first-fw">
+                    <div class="figure">
+                        <p>Created By</p>
+                        <p>{{val.order_creator}}</p>
+                    </div>
+                    <div class="figure">
+                        <p>Order ID</p>
+                        <p>#ORD-{{val.id}}</p>
+                    </div>
+                    <div class="figure">
+                        <p>Total Item</p>
+                        <p>{{val.order_item}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)"  *ngIf="flag!=1">
+            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+    </div>
+</ion-content>
+
+<ion-footer class="csm-footer-tabs">
+    <div class="ftabs">
+        <button ion-item [ngClass]="{'active': order_type == 'Primary'}" (click)="getorderList('Primary');primary()"><p>Primary</p><span class="counter">{{primary_count.primary_order}}</span></button>
+        <button ion-item [ngClass]="{'active': order_type == 'Secondary'}" (click)="getorderList('Secondary');secondary()" ><p>Secondary</p> <span class="counter">{{secondary_count.secondary_order}}</span></button>
+    </div>
+</ion-footer> 

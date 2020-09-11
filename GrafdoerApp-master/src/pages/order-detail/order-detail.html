@@ -1,0 +1,224 @@
+'<ion-header class="catalogue-header">
+	<ion-navbar>
+		<ion-title>#ORD-{{userDetail.order_id}}</ion-title>
+		<ion-buttons end class="login-btn">
+			<button ion-button>
+				<img class="w30" src="assets/icons/profil-ic-2.svg" alt="">
+			</button>
+		</ion-buttons>
+		<ion-buttons end class="login-btn" (click)="presentPopover($event)">
+			<button ion-button>
+				<img class="w4 h16" src="assets/icons/more-option-ic.svg" alt="">
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	
+	<div class="prlist sticky">
+		<div class="box light-red-bg relative" style="margin-bottom: 0px !important;">
+			
+			<div class="relative">
+				<h1 class="font14 mb10 semibold">{{userDetail.company_name | titlecase}}</h1>
+				<div class="cs-status" *ngIf="userDetail.order_status != ''" [ngClass]="{'pending': userDetail.order_status == 'Pending', 'reject': userDetail.order_status == 'Reject', 'approved': userDetail.order_status == 'Approved' }">
+					{{userDetail.order_status}}
+				</div>
+			</div>
+			
+			<div class="heading border-none">
+				<div class="dist-name dflex">
+					<div class="first-leter w50">{{tag}}</div>
+					<div class="name-number">
+						<div class="text-with-ic dflex mb0">
+							<i class="material-icons text-relat-icon">person</i>
+							<p>{{userDetail.name | titlecase}}</p>
+						</div>
+						
+						<div class="text-with-ic dflex mb0" *ngIf="userDetail.mobile">
+							<i class="material-icons text-relat-icon">call</i>
+							<p>{{userDetail.mobile}}</p>
+						</div>
+						
+						<div class="text-with-ic dflex mb0" *ngIf="!userDetail.mobile">
+							<i class="material-icons text-relat-icon">call</i>
+							<p>N A</p>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			
+			<!-- <div class="detail pb15">
+				<p class="mt10"><strong>Created By</strong></p>
+				<p class="f13"></p>
+				<div class="cs-table-list" style="margin: 3px -10px;">
+				</div>
+			</div> -->
+			
+			
+			<!-- <div class="detail pb15" *ngIf="userDetail.distributor_name != null">
+				<p class="mt10"><strong>Distributor Name</strong></p>
+				<p class="f13">{{userDetail.distributor_name | titlecase}}</p>
+				<div class="cs-table-list" style="margin: 3px -10px;">
+				</div>
+			</div> -->
+			
+			<div class="oneinfo padding0">
+				<div class="figure" [ngClass]="userDetail.order_status != '' ? 'wp100' : ''" style="background:rgba(255,0,0,0.1)">
+					<p>Created By</p>
+					<p>{{userDetail.order_creator | titlecase}}</p>
+				</div>
+				<div class="figure" style="background:rgba(255,0,0,0.1)" *ngIf="userDetail.distributor_name != null">
+					<p>Distributor Name</p>
+					<p>{{userDetail.distributor_name | titlecase}}</p>
+				</div>
+				<div class="figure" style="background:rgba(255,0,0,0.1)">
+					<p>Date Created</p>
+					<p>{{userDetail.date_created | date:'MMM d, y'}}</p>
+				</div>
+				
+				<div class="figure" style="background:rgba(255,0,0,0.1)">
+					<p>Order Value</p>
+					<p>&#8377; {{userDetail.order_total}}</p>
+				</div>
+			</div>
+			
+			<div class="detail pt8">
+				<p><strong>ADDRESS</strong></p>
+				<p class="f13">{{userDetail.district | titlecase}},{{userDetail.state | titlecase}} {{userDetail.pincode}}</p>
+				<div class="cs-table-list">
+				</div>
+			</div>
+			
+			
+			
+			<div class="detail pt8" *ngIf="userDetail.reason_reject != ''">
+				<p><strong>Reason of Reject</strong></p>
+				<p class="f13">{{userDetail.reason_reject}}</p>
+				<div class="cs-table-list">
+				</div>
+			</div>
+			
+			
+			<div class="detail pt8" *ngIf="userDetail.remark != ''">
+				<p><strong>Remark</strong></p>
+				<p class="f13">{{userDetail.remark}}</p>
+				<div class="cs-table-list">
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="heading-text ml16">
+		<p></p> 		
+	</div>
+	
+	<div class="list">
+		
+		<div class="box complete" *ngFor="let order of orderDetail;let i = index;" padding>
+			
+			<div class="data-table padding0">
+				<p class="cs-info">
+					<span>PRODUCT INFORMATION</span>
+					{{order.product_name}}, {{order.brand}}<span *ngIf="order.color">,</span> {{order.color}}<span *ngIf="order.category">,</span> {{order.category}}<span *ngIf="order.sub_category">,</span> {{order.sub_category}}<span *ngIf="order.cat_no">,</span> {{order.cat_no}}
+				</p>
+				<table>
+					
+					<tr>
+						<th>Quantity</th>
+						<td>
+							<div class="edit-data" ngClass="{{order.edit_true ? '' : 'active' }}">
+								<input type="number" string-to-number (input)="userDetail.delivery_from == 'Gravity' ?  calculateAmount(order.qty,i) : calculateAmount1(order.qty,i)" [readonly]="active[i]?.qty != '1'"  name="qty" [(ngModel)]="order.qty" readonly>
+								<a class="edit-value edits" *ngIf="(userDetail.delivery_from=='Gravity' ? '1 == 1' : orderDate == currentDate) &&  order.edit_true" (click)="edit_order(i,order.id,order.category,userDetail.dr_id,userDetail.type,order.cat_no)">
+									<i class="material-icons create" >create</i>
+								</a>
+								<a class="edit-value saves" *ngIf="!order.edit_true">
+									<i class="material-icons create" (click)="update_order(i,order.order_id,order.id)">save</i>
+								</a>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>Price</th>
+						<td>&#8377; {{order.price}}</td>
+					</tr>
+					<tr>
+						<th>Discount ({{order.discount_percent}}%)</th>
+						<td>&#8377; {{order.discount_amount}}</td>
+					</tr>
+					<tr>
+						<th>Discounted Amount</th>
+						<td>&#8377; {{order.discounted_amount}}</td>
+					</tr>
+					<tr *ngIf="order.gst_amount != '0'">
+						<th>GST ({{order.gst_percent}}%)</th>
+						<td>&#8377; {{order.gst_amount}}</td>
+					</tr>
+					<tr>
+						<th>Total Amount</th>
+						<td>{{order.amount}}</td>
+					</tr>
+					<tr *ngIf= "(userDetail.delivery_from=='Gravity' ? '1 == 1' : orderDate == currentDate) &&  order.edit_true" >
+						<th>Action</th>
+						<td><a class="del-btn" (click)="delete_item(i,order.order_id,order.id)"><i class="material-icons create" >delete_sweep</i>Delete</a></td>
+					</tr>
+				</table>
+			</div>
+			
+			
+			
+			<!--  -->
+			<div class="oneinfo pr0 pl0 pb0" style="display: none;">
+				<div class="figure" [ngClass]="{ 'active' : active[i]?.qty == '1'}">
+					<p>Quantity</p>
+					<!-- <p>{{order.qty}}</p> -->
+					<input type="number" string-to-number (input)="userDetail.delivery_from == 'Gravity' ?  calculateAmount(order.qty,i) : calculateAmount1(order.qty,i)" [readonly]="active[i]?.qty != '1'"  name="qty" [(ngModel)]="order.qty" readonly>
+					<!-- <a class="edit-value" *ngIf="(userDetail.order_status == 'Pending') || (userDetail.order_gst == 0 && userDetail.order_discount == 0)" (click)="edit_order(i,order.id,order.category,userDetail.dr_id,userDetail.type,order.cat_no)">
+						<i class="material-icons create" >create</i>
+					</a>
+					<a class="edit-value" *ngIf="active[i]?.qty == '1' && ((userDetail.order_status == 'Pending') || (userDetail.order_gst == 0 && userDetail.order_discount == 0))">
+						<i class="material-icons save" (click)="update_order(i,order.order_id,order.id)">save</i>
+					</a> -->
+				</div>
+				
+				<div class="figure">
+					<p>Price</p>
+					<p>&#8377; {{order.price}}</p>
+					<a class="edit-value1" *ngIf= "(userDetail.order_status == 'Pending') || (userDetail.order_gst == 0 && userDetail.order_discount == 0)" (click)="delete_item(i,order.order_id,order.id)">
+						<i class="material-icons">delete</i>
+					</a>
+				</div>
+			</div>
+			<div class="oneinfo pt0 pr0 pl0 pb0"  style="display: none;">
+				<div class="figure" *ngIf="userDetail.delivery_from == 'Gravity'">
+					<p>GST</p>
+					<p>&#8377; {{order.gst_amount}}</p>
+				</div>
+				
+				<div class="figure">
+					<p>Discount</p>
+					<p>&#8377; {{order.discount_amount}}</p>
+				</div>
+			</div>
+			<div class="oneinfo pt0 pr0 pl0 "  style="display: none;">
+				<div class="figure wp100">
+					<p>Total Amount</p>
+					<p>&#8377; {{order.amount}}</p>
+				</div>
+			</div>
+			
+			
+		</div>
+		
+		
+		
+	</div>
+	<div class="h60"></div>
+</ion-content>
+
+<!-- *ngIf="userDetail.order_status == 'Pending'" -->
+
+<!-- <div class="endcheck" *ngIf="userDetail.delivery_from=='Gravity' ? '1 == 1' : orderDate == currentDate">
+	<a (click)="add_new_item(userDetail.order_id,userDetail.dr_id)">Add Items</a>
+</div> -->

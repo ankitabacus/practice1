@@ -1,0 +1,100 @@
+<ion-header>
+    
+  <ion-navbar>
+      <ion-title>My Dealer</ion-title>
+      <ion-buttons end>
+          <!-- <button ion-button icon-only color="light" (click)="add_lead_page()">
+              <ion-icon name="md-add-circle"></ion-icon>
+          </button> -->
+      </ion-buttons>
+  </ion-navbar>    
+  <ion-toolbar>
+    <ion-searchbar (keyup.enter)="get_dealer_list()" [(ngModel)]="search" name="search" ></ion-searchbar>
+</ion-toolbar> 
+</ion-header>
+
+
+<ion-content>
+
+        <div class="nothing-here" *ngIf="!dealer_list.length && load_data == '1' ">
+                <div class="outer">
+                    <div class="innear">
+                        <img src="assets/imgs/nothing.svg" alt="">
+                        <p>Data not found</p>
+                    </div>
+                </div>
+            </div>
+  
+  <div class="prlist">
+
+       
+      
+      <div class="box light-red-bg relative" *ngFor="let data of dealer_list" (click)="dealer_detail(data.id)">
+          <div class="heading">
+              <div class="dist-name dflex">
+                  <div class="first-leter">{{data.company_name.substring(0,1).toUpperCase()}}</div>
+                  <div class="name-number">
+                      <p>{{data.company_name | titlecase}}</p>
+
+                    <div class="text-with-ic dflex mb0">
+                        <i class="material-icons text-relat-icon">call</i>
+                        <a class="f14" style="line-height: 32px;">{{data.mobile}}</a>
+                    </div>
+                  </div>
+              </div>
+              <div class="w100 dflex" style="min-width: 100px;">
+                  <h1>{{data.date_created | date: 'MMM d, y'}}</h1>
+              </div>
+          </div>
+          <p class="cs-type" ><i class="material-icons">place</i>{{data.district | titlecase}}, {{data.state | titlecase}} {{data.pincode}}</p>
+          <!-- <p class="cs-type" *ngIf="!data.state && !data.district && !data.pinocode"><i class="material-icons">place</i>N A</p> -->
+
+      </div>
+
+
+        <!-- infinite scroll -->
+  
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)"  *ngIf="flag!=1">
+    <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="Loading more data...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+<!-- infinite scroll end -->
+<!--         
+      <div class="box light-red-bg relative" (click)="goToDetail()">
+          <div class="heading">
+              <div class="dist-name dflex">
+                  <div class="first-leter">PS</div>
+                  <div class="name-number">
+                      <p>Abacus Desk</p>
+                      <a class="f14">8860774322</a>
+                  </div>
+              </div>
+              <div class="wp100 dflex">
+                  <h1>12 Dec 2018</h1>
+              </div>
+          </div>
+          <p class="cs-type"><i class="material-icons">place</i>Faridabad, Haryana 121001</p>
+      </div>
+      
+      <div class="box light-red-bg relative" (click)="goToDetail()">
+          <div class="heading">
+              <div class="dist-name dflex">
+                  <div class="first-leter">PS</div>
+                  <div class="name-number">
+                      <p>Abacus Desk</p>
+                      <a class="f14">8860774322</a>
+                  </div>
+              </div>
+              <div class="wp100 dflex">
+                  <h1>12 Dec 2018</h1>
+              </div>
+          </div>
+          <p class="cs-type"><i class="material-icons">place</i>Faridabad, Haryana 121001</p>
+      </div> -->
+  </div>
+  
+</ion-content>
+
+

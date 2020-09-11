@@ -1,0 +1,98 @@
+<ion-header class="catalogue-header">
+    <ion-navbar>
+        <ion-title>{{distributor_detail.company_name | titlecase}}</ion-title>
+        <ion-buttons end  *ngIf="user_right.add_D_N == '1'">
+            <button ion-button icon-only color="light" (click)="editNetwork(distributor_detail.id)">
+                <ion-icon name="md-create"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    
+    <div class="prlist">
+        <div class="box light-red-bg relative">
+            <div class="relative">
+                <h1 class="font14 mb10 semibold">{{distributor_detail.company_name | titlecase}}</h1>
+            </div>
+            <div class="heading border-none pb0">
+                <div class="dist-name dflex">
+                    <div class="first-leter w50">{{distributor_detail.company_name | slice:0:1}}</div>
+                    <div class="name-number">
+                        <div class="text-with-ic dflex mb0">
+                            <i class="material-icons text-relat-icon">person</i>
+                            <p>{{distributor_detail.name | titlecase}}</p>
+                        </div>
+                        <div class="text-with-ic dflex mb0" *ngIf="distributor_detail.mobile">
+                            <i class="material-icons text-relat-icon">call</i>
+                            <p>{{distributor_detail.mobile}}</p>
+                        </div>
+                        
+                        <div class="text-with-ic dflex mb0" *ngIf="!distributor_detail.mobile">
+                            <i class="material-icons text-relat-icon">call</i>
+                            <p>N A</p>
+                        </div>
+                        
+                        <div class="text-with-ic dflex mb0" *ngIf="distributor_detail.whatsapp_no">
+                            <i class="material-icons text-relat-icon">forum</i>
+                            <p>{{distributor_detail.whatsapp_no}}</p>
+                        </div>
+                        
+                        <div class="text-with-ic dflex mb0" *ngIf="!distributor_detail.whatsapp_no">
+                            <i class="material-icons text-relat-icon">forum</i>
+                            <p>N A</p>
+                        </div>
+                        
+                        <div class="text-with-ic dflex mb0" *ngIf="distributor_detail.email">
+                            <i class="material-icons text-relat-icon">email</i>
+                            <a class="f14 underline mt8">{{distributor_detail.email}}</a>
+                        </div>
+                        <div class="text-with-ic dflex mb0" *ngIf="!distributor_detail.email">
+                            <i class="material-icons text-relat-icon">email</i>
+                            <a class="f14 underline mt8">N A</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="detail">
+                <p><strong>ADDRESS</strong></p>
+                <p class="f13">{{distributor_detail.district | titlecase}},{{distributor_detail.state | titlecase}} {{distributor_detail.pincode}}</p>
+                <div class="cs-table-list" style="margin: 3px -10px;">
+                    <!-- <table>
+                        <tr>
+                            <td class="w130 bold">SEGMENT INFO</td>
+                            <td class="w10">:</td>
+                            <td>4 Wheeler</td>
+                        </tr>
+                    </table> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dtbtns" *ngIf="distributor_detail.lead_type == 'Dr'">
+        <a (click)="customer_checkin(distributor_detail.id)">
+            
+            <div class="cs-left">
+                <div class="counter">{{total_checkin.total_checkin}}</div>
+                <h1>Check In</h1>
+            </div>
+            <i class="material-icons">arrow_right_alt</i>
+        </a>
+        
+        <a (click)="customer_order(distributor_detail.id)">
+            
+            <div class="cs-left">
+                <div class="counter">{{total_order.total_order}}</div>
+                <h1>Order</h1>
+            </div>
+            <i class="material-icons">arrow_right_alt</i>
+        </a>
+        
+        
+        
+    </div>
+    
+    
+</ion-content>

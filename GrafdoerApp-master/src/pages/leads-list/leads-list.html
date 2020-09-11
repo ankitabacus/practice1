@@ -1,0 +1,26 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>
+			<h1>leads</h1>
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content style="background: #f8f8f8;">
+
+	<button ion-item class="full-width-list one-lead" (click)="seeLeadDetail(val.id)" *ngFor="let val of lead_data">
+		<div class="heading">
+			<p>{{val.company_name | titlecase}}</p>
+			<h1><i class="material-icons">insert_invitation</i> {{val.date_created | date:'dd/MM/y'}}</h1>
+		</div>
+		<div class="discription">
+			<h1>{{val.contact_person | titlecase}}</h1>
+			<h2>{{val.contact_1}}<span *ngIf="val.contact_2">,</span> {{val.contact_2}}</h2>
+		</div>
+	</button>
+
+	<ion-fab right bottom>
+		<button ion-fab color="danger" (click)="addLeads()"><ion-icon name="add"></ion-icon></button>
+	</ion-fab>
+</ion-content>
+

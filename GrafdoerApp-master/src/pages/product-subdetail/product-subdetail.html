@@ -1,0 +1,78 @@
+<ion-header class="main-header remove">
+    <ion-navbar>
+        <ion-title>Product Detail</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <div class="share-btn" (click)="shareproduct()">
+        <i class="material-icons">share</i>
+    </div>
+    <div class="detais new_change">
+        <div class="product-pic">
+            <ion-slides pager>
+                <ion-slide>
+                    <img src="{{imageUrl+prod_detail.image}}" onerror="this.src='assets/imgs/no-thumbnail.jpg'">
+                </ion-slide>
+            </ion-slides>
+
+            <ul *ngFor="let image of prod_image; let i=index">
+                <li (click)="changeImage(i)">
+                    <a><img src="{{image.image}}" onerror="this.src='assets/imgs/no-thumbnail.jpg'"></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="detail-prize">
+            <div class="dl-left">
+                <p>{{prod_detail.material_code?prod_detail.material_code:'NA'}}</p>
+                <h4>{{prod_detail.product_name}}</h4>
+            </div>
+            <div class="dl-right">
+                <h3><span>₹​</span> {{prod_detail.price}}</h3>
+            </div>
+        </div>
+
+        <!-- <div class="product-descr">
+			<h3>Related Images</h3>
+
+			<div class="rel_img">
+				<ul>
+					<li><img src="assets/imgs/slide-1.jpg"></li>
+					<li><img src="assets/imgs/slide-2.jpg"></li>
+					<li><img src="assets/imgs/slide-3.jpg"></li>
+				</ul>
+			</div>			
+		</div> -->
+
+        <div class="product-descr">
+            <h3>Description</h3>
+            <p>{{prod_detail.desc}}</p>
+        </div>
+
+        <div class="table-sec">
+            <div class="box">
+                <h4>PCS/SET</h4>
+                <p>{{prod_detail.pcs?prod_detail.pcs:'NA'}}</p>
+            </div>
+
+            <div class="box">
+                <h4>STD Packing</h4>
+                <p>{{prod_detail.std_packing?prod_detail.std_packing :'NA'}}</p>
+            </div>
+            <!-- <div class="box">
+				<h4>Product Code</h4>
+				<p>{{prod_detail.material_code?prod_detail.material_code:'NA'}}</p>
+			</div> -->
+            <!-- <div class="box">
+				<h4>HSN Code</h4>
+				<p>{{prod_detail.hsn?prod_detail.hsn:'NA'}}</p>
+			</div> -->
+        </div>
+
+        <div class="enquiry-btn" *ngIf=" service.karigar_info.type == 'Customer'">
+            <button ion-button color="danger" class="green-color" icon-start (click)="goToEnquiryPage()">
+				<p> ENQUIRY NOW</p>
+			</button>
+        </div>
+    </div>
+</ion-content>

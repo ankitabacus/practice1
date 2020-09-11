@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "563001840464",
+    "firebase_url": "https://gravity-1e11b.firebaseio.com",
+    "project_id": "gravity-1e11b",
+    "storage_bucket": "gravity-1e11b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563001840464:android:0fbfd3d9e3058172675255",
+        "android_client_info": {
+          "package_name": "com.gravity.abacusdesk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563001840464-791k7qs65gtfius9au1k6f4mdl6cffe1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5m5XYCgD-Mf73raajFjNA975hmO5HJgg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "563001840464-791k7qs65gtfius9au1k6f4mdl6cffe1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

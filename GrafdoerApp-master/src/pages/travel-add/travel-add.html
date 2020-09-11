@@ -1,0 +1,87 @@
+<ion-header>
+  
+  <ion-navbar>
+    <ion-title>Add Travel Plan</ion-title>
+  </ion-navbar>
+  
+</ion-header>
+
+
+<ion-content>
+  <div class="edit">
+    <ion-list>
+      <div>
+        
+        <ion-item>
+          <ion-label floating><span>Select Date</span></ion-label>
+          <ion-datetime display-format="MMM DD, YYYY"  [min]="today_date" type="text" name="travel_date" #travel_date="ngModel" [(ngModel)]="travel_data.travel_date" (ngModelChange)="getTravelPlan(travel_data.travel_date)" class="calander" required ></ion-datetime>
+        </ion-item>
+        
+        <ion-item class="select-cs" >
+          <ion-label class="select-label">Select Type</ion-label>
+          <ion-select [(ngModel)]="travel_data.travel_type" required>
+            <ion-option value="Area Visit">Area Visit</ion-option>
+            <ion-option value="Channel Partner Visit">Channel Partner Visit</ion-option>
+          </ion-select>
+        </ion-item>
+        
+        <ion-item class="select-cs" *ngIf="travel_data.travel_type=='Area Visit'" >
+          <ion-label class="select-label">Select State</ion-label>
+          <ion-select name="state" [(ngModel)]="travel_data.state" (ngModelChange)="getDstrictList()" required>
+            <ion-option *ngFor="let list of state_list" [value]="list.state_name">{{list.state_name}}</ion-option>
+            <!-- <ion-option value="two">Punjab</ion-option> -->
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="select-cs" *ngIf="travel_data.travel_type=='Area Visit' && travel_data.state">
+            <ion-label class="select-label"> Select District</ion-label>
+            <ion-select name="district" [(ngModel)]="travel_data.district" required>
+              <ion-option *ngFor="let list of district_list" [value]="list.district_name">{{list.district_name}}</ion-option>
+              <!-- <ion-option value="two">Palwal</ion-option> -->
+            </ion-select>
+          </ion-item>
+        
+        <ion-item class="select-cs" *ngIf="travel_data.travel_type=='Channel Partner Visit'">
+          <ion-label class="select-label">Select Channel Partner</ion-label>
+          <ion-select [(ngModel)]="travel_data.dr_id" required>
+            <ion-option *ngFor="let list of channel_partners" [value]="list.id">{{list.company_name}}</ion-option>
+            <!-- <ion-option value="two">Shayam Singh</ion-option> -->
+          </ion-select>
+        </ion-item>
+        
+      </div>
+    </ion-list>
+    
+    <div block class="text-right">
+      <button ion-button color="secondary" [disabled]="!travel_data.travel_date || !travel_data.travel_type || (travel_data.travel_type=='Channel Partner Visit' && !travel_data.dr_id) || (travel_data.travel_type=='Area Visit' && !travel_data.state) || (travel_data.travel_type=='Area Visit' && !travel_data.district)" round class="h45 mt15" (click)="addTravelPlan()">Save</button>
+    </div>
+  </div>
+  
+  <div padding *ngIf="travel_list.length">
+    <div *ngFor="let row of travel_list;let i=index;">
+        <div class="travel-list" *ngIf="row.travel_type=='Channel Partner Visit'" [ngClass]="row.flag =='1'?'visit-done':''">
+            <div class="content">
+              <div class="icon">{{row.company_name.substring(0,1).toUpperCase()}}</div>
+              <div class="info">
+                <P>{{row.company_name}}</P>
+                <p>{{row.state}} / {{row.district}}</p>
+              </div>
+            </div>
+            <div class="action">
+              <button (click)="deleteTravelPlan(row.id,i,row.flag)"><i class="material-icons">delete_sweep</i></button>
+            </div>
+          </div>
+          
+          <div class="travel-list" *ngIf="row.travel_type=='Area Visit'" [ngClass]="row.flag =='1'?'visit-done':''">
+            <div class="content">
+              <div class="info">
+                <p>{{row.state}} / {{row.district}}</p>
+              </div>
+            </div>
+            <div class="action" >
+              <button (click)="deleteTravelPlan(row.id,i,row.flag)"><i class="material-icons">delete_sweep</i></button>
+            </div>
+          </div>
+    </div>
+  </div>
+</ion-content>

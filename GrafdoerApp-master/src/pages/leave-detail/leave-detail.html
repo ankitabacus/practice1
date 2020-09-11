@@ -1,0 +1,80 @@
+<ion-header class="catalogue-header" no-border>
+	<ion-navbar>
+		<ion-title>My Leaves</ion-title>
+		<!-- <ion-buttons end class="login-btn">
+			<button ion-button>
+				<img class="w30" src="assets/icons/profil-ic-2.svg" alt="">
+			</button>
+		</ion-buttons> -->
+	</ion-navbar>
+</ion-header>
+
+<ion-content style="background: #f4f4f4;" class="after-none">
+	
+	<div class="gradient h80"></div>
+	
+	<div class="list">
+		<div class="box m16 border-radius" style="margin-top: -80px !important;">
+			<div class="heading">
+				<p class="date">6 DEC 2018  11:53 AM</p>
+			</div>
+			<div class="figure-outer mb6 mt16">
+				<div class="figure-innear dflex white-bg">
+					<div class="cs-figure">
+						<p>From</p>
+						<p>10/DEC/2018</p>
+					</div>
+					<div class="cs-figure border-left">
+						<p>To</p>
+						<p>15/DEC/2018</p>
+					</div>
+				</div>
+			</div> 
+			<div class="detail">
+				<p>It is a long established fact that a reader will be distracted by the readable</p>
+			</div>
+		</div>
+	</div>
+	
+	<ion-list radio-group class="select-leave">
+		<ion-list-header>
+			Select Date to cancel Leave
+		</ion-list-header>
+		
+		<ion-item>
+			<ion-label class="dflex"> <p>10 Dec</p> <p>Monday</p> </ion-label>
+			<ion-checkbox></ion-checkbox>
+		</ion-item>
+		
+		<ion-item>
+			<ion-label class="dflex"> <p>11 Dec</p> <p>Tuesday</p> </ion-label>
+			<ion-checkbox></ion-checkbox>
+		</ion-item>
+		
+		<ion-item>
+			<ion-label class="dflex"> <p>12 Dec</p> <p>Wednesday</p> </ion-label>
+			<ion-checkbox checked="true"></ion-checkbox>
+		</ion-item>
+		
+		<ion-item>
+			<ion-label class="dflex"> <p>13 Dec</p> <p>Thursday</p> </ion-label>
+			<ion-checkbox></ion-checkbox>
+		</ion-item>
+		
+		<ion-item>
+			<ion-label class="dflex"> <p>14 Dec</p> <p>Friday</p> </ion-label>
+			<ion-checkbox></ion-checkbox>
+		</ion-item>
+		
+		<ion-item>
+			<ion-label class="dflex"> <p>15 Dec</p> <p>Saturday</p> </ion-label>
+			<ion-checkbox></ion-checkbox>
+		</ion-item>
+
+	</ion-list>
+
+	<div class="cs-btn p16 pt0">
+		<button class="white-bg" ion-button block round outline color="danger" outline>CANCEL LEAVE</button>
+	</div>	
+	
+</ion-content>

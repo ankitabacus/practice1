@@ -1,0 +1,68 @@
+<ion-header>
+    
+    <ion-navbar>
+        <ion-title>My Channel Partner</ion-title>
+    </ion-navbar>  
+    <ion-toolbar>
+        <ion-searchbar (keyup.enter)="get_distributor_list()" [(ngModel)]="search" name="search" ></ion-searchbar>
+    </ion-toolbar>  
+    
+</ion-header>
+
+
+<ion-content>
+    
+    <div class="nothing-here" *ngIf="!distributor_list.length && load_data == '1'">
+        <div class="outer">
+            <div class="innear">
+                <img src="assets/imgs/nothing.svg" alt="">
+                <p>Data not found</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="prlist">
+        
+        
+        
+        <div class="box light-red-bg relative" *ngFor="let data of distributor_list" (click)="distributor_detail(data.id)">
+            <div class="heading">
+                <div class="dist-name dflex mb0">
+                    <div class="first-leter">{{data.company_name.substring(0,1).toUpperCase()}}</div>
+                    <div class="name-number">
+                        <p>{{data.company_name | titlecase}}</p>
+                        
+                        <div class="text-with-ic dflex mb0">
+                            <i class="material-icons text-relat-icon">call</i>
+                            <a class="f14" style="line-height: 32px;">{{data.mobile}}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="wp100 dflex ">
+                    <h1>{{data.date_created | date: 'MMM d, y'}}</h1>
+                </div>
+            </div>
+            <p class="cs-type" *ngIf="data.creator"><i class="material-icons">person</i>{{data.creator}}</p>
+            <p class="cs-type" ><i class="material-icons">place</i>{{data.district | titlecase}}, {{data.state | titlecase}} {{data.pincode}}</p>
+            <!-- <p class="cs-type" *ngIf="!data.state && !data.district && !data.pinocode"><i class="material-icons">place</i>N A</p> -->
+            
+        </div>
+        
+        <!-- infinite scroll -->
+        
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)"  *ngIf="flag!=1">
+            <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <!-- infinite scroll end -->
+</div>
+
+<ion-fab right bottom >
+    <button ion-fab color="danger" (click)="addPage()" *ngIf="user_right.add_D_N == '1'"><ion-icon name="add"></ion-icon></button>
+</ion-fab>
+
+</ion-content>
+
+

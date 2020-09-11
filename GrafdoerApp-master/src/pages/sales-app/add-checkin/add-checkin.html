@@ -1,0 +1,117 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>
+			<h1>Add Checkin</h1>
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+	
+	<ion-list class="m0 cs-list-change" radio-group [(ngModel)]="data.network" name="network" (ngModelChange)="get_network_list(data.network)">
+		<ion-list-header class="border-heading">
+			Select Type
+		</ion-list-header>
+
+		<ion-item>
+			<ion-label>Channel Partner</ion-label>
+			<ion-radio value="1" ></ion-radio>
+		</ion-item>
+		<ion-item>
+			<ion-label>Direct Dealer</ion-label>
+			<ion-radio value="7"></ion-radio>
+		</ion-item>
+		<ion-item>
+			<ion-label>Dealer</ion-label>
+			<ion-radio value="3"></ion-radio>
+		</ion-item>
+		<ion-item>
+			<ion-label>Other</ion-label>
+			<ion-radio value="Other"></ion-radio>
+		</ion-item>
+	</ion-list>
+	
+	<div *ngIf="data.network == '1' || data.network == '7' || data.network == '3'" class="enquiry" style="padding: 0px !important;">
+		<ion-list>
+			
+			<div class="csslecttype">
+				
+				<ion-item style="border-bottom: 1px solid #dedede !important;">
+					<ion-label *ngIf="data.network == '1'">Channel Partner</ion-label>
+					<ion-label *ngIf="data.network == '3'">Dealer</ion-label>
+					
+					<ion-label *ngIf="data.network == '7'">Direct Dealer</ion-label>
+					
+					<ionic-selectable
+					item-content 
+					[(ngModel)]="data.type_name"
+					[items]="distributor_network_list"
+					itemValueField="id"
+					name="name"
+					value="company_name"
+					itemTextField="company_name"
+					(onChange)="other(data.type_name.company_name,data.network,data.type_name)"
+					[canSearch]="true"
+					#selectComponent>
+				</ionic-selectable>
+			</ion-item>			
+		</div>
+	</ion-list>
+</div>
+
+<div padding *ngIf="load == '1' && data.type_name.company_name != 'Other' && addNewDealer==false">
+	<div class="cs-figure">
+		<p ><span>Company Name :</span> {{type_name.company_name}}</p>
+		<p><span>Name :</span>  {{type_name.name}}</p>
+		<p> <span>Mobile :</span> {{type_name.mobile}}</p>
+	</div>
+</div>
+
+<form [formGroup]="AddCheckinForm" novalidate>
+	<div class="edit m0" *ngIf="data.network == 'Other' || addNewDealer==true" > 
+		<ion-list>
+			
+			<ion-item >
+				<ion-label floating>Name</ion-label>
+				<ion-input type="text" [(ngModel)]="data.name" formControlName="name" minlength="3" required></ion-input>
+			</ion-item>
+			
+			<p *ngIf="AddCheckinForm.get('name').hasError('required') && AddCheckinForm.get('name').touched"  class="error-left relative">Name is required!</p>
+			
+			<p *ngIf="(AddCheckinForm.get('mobile').hasError('minlength')) && AddCheckinForm.get('mobile').touched"  class="error-left relative">Mobile must be 10 digit!</p>
+			
+			<ion-item >
+				<ion-label floating>Mobile</ion-label>
+				<ion-input type="tel" minlength="10" maxlength="10" [(ngModel)]="data.mobile" formControlName="mobile" required></ion-input>
+			</ion-item>
+			
+			<p *ngIf="AddCheckinForm.get('mobile').hasError('required') && AddCheckinForm.get('mobile').touched"  class="error-left relative">Mobile is required!</p>
+			
+			<p *ngIf="(AddCheckinForm.get('mobile').hasError('minlength') || AddCheckinForm.get('mobile').hasError('maxlength')) && AddCheckinForm.get('mobile').touched"  class="error-left relative">Mobile must be 10 digit!</p>
+		</ion-list>
+	</div>
+	
+	<!-- <div class="refbtn mt40 pt0 pl16 pr16" padding >
+		<button color="theme" ion-button block round >Start Visit</button>
+	</div> -->
+</form>
+
+<!-- <div class="refbtn mt40" *ngIf="other_name == 'Other'">
+	<button color="theme" ion-button block round (click)="add_dealer(data.network)">Add Network Type</button>
+</div> -->
+
+<!-- 
+	<div class="refbtn mt40" >
+		<button color="theme" ion-button block round   (click)="startVisit()">Start Visit</button>
+	</div> -->
+	
+</ion-content>
+
+<ion-footer padding>
+	<button ion-button block round class="h45" [disabled]="!data.network" (click)="startVisit()" *ngIf="data.network != 'Other' && other_name != 'Other' && (type_name.company_name) && addNewDealer==false">Start Visit</button>
+	
+	<button ion-button block round class="h45" (click)="startOtherVisit()" *ngIf="data.network == 'Other' && data.name && data.mobile?.length == 10">Start Visit</button>
+	
+	<button ion-button block round class="h45" (click)="startDealerVisit()" *ngIf="addNewDealer==true && data.name && data.mobile?.length == 10">Start Visit</button>
+</ion-footer>

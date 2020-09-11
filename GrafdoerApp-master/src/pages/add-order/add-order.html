@@ -1,0 +1,164 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            <h1 *ngIf="user_data1 == ''">Add Order</h1>
+            <h1 *ngIf="user_data1 != ''">Add Order Item</h1>
+        </ion-title>
+        <div class="cart" (click)="go_to_cart()" *ngIf="globalVar ">
+            <span>{{globalVar}}</span>
+            <i class="material-icons">shopping_cart</i>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+    
+    <div class="prlist sticky">
+        <div class="box light-red-bg relative">
+            
+            <div class="relative">
+                <h1 class="font14 mb10 semibold">{{data.company_name | titlecase}} </h1>
+            </div>
+            <div class="heading border-none pb0">
+                <div class="dist-name dflex mb0">
+                    <div class="first-leter w50">H</div>
+                    <div class="name-number">
+                        <p style="margin-top: 10px !important;">{{data.name | titlecase}}</p>
+                        
+                        <div class="text-with-ic dflex mb0">
+                            <i class="material-icons text-relat-icon">call</i>
+                            <p>+91-{{data.mobile}} </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="edit">
+        
+        <div class="csslecttype" *ngIf="data.type == 3">
+            <ion-item>
+                <ion-label>Select Distributor</ion-label>
+                <ionic-selectable item-content 
+                [(ngModel)]="data.distributor_id"
+                [items]="distributor_list"
+                itemValueField="id"
+                itemTextField="company_name"
+                name="company_name"
+                value="id"
+                [canSearch]="true">
+            </ionic-selectable>
+        </ion-item>	
+    </div>
+    
+    <div class="csslecttype">
+        <ion-item>
+            <ion-label>Category </ion-label>
+            <select-searchable
+            item-content 
+            [(ngModel)]="data.category"
+            [items]="categoryList"
+            itemValueField="category"
+            itemTextField="category"
+            name="category"
+            value="category"
+            [canSearch]="true"
+            [hasVirtualScroll]="true"
+            (onChange)="getSubCategory(data.category)">
+        </select-searchable>
+    </ion-item>
+</div>
+
+<div class="csslecttype">
+    <ion-item>
+        <ion-label>Sub-Category</ion-label>
+        <select-searchable
+        item-content 
+        [(ngModel)]="data.sub_category"
+        [items]="subCatList"
+        itemValueField="sub_category"
+        itemTextField="sub_category"
+        name="sub_category"
+        value="sub_category"
+        [canSearch]="true"
+        [hasVirtualScroll]="true"
+        (onChange)="getProductCode(data.sub_category)"
+        >
+    </select-searchable>
+</ion-item>
+</div>
+
+<div class="csslecttype" *ngIf="data.category && data.sub_category">
+    <ion-item>
+        <ion-label>Product Code</ion-label>
+        <select-searchable
+        item-content 
+        [(ngModel)]="data.cat_no"
+        [items]="autocompleteItems"
+        itemValueField="cat_no"
+        itemTextField="product_name"
+        name="cat_no"
+        value="cat_no"
+        [canSearch]="true"
+        [hasVirtualScroll]="true"
+        (onChange)="portChange($event)"
+        >
+    </select-searchable>
+</ion-item>
+</div>
+
+<ion-list>
+    <ion-item *ngIf=" brandList.length > 1" class="cs-select mt16">
+        <ion-label>Brand</ion-label>
+        <ion-select placeholder="Select Brand" (ionChange)="brandSelected(data.brand)" name="brand"  [(ngModel)]="data.brand">
+            <ion-option *ngFor="let data of brandList"  value="{{data.brand_name}}">{{data.brand_name}}</ion-option>
+        </ion-select>
+    </ion-item>
+    
+    
+    <ion-item *ngIf="colorList.length > 1" class="cs-select mt16">
+        <ion-label>Color</ion-label>
+        <ion-select placeholder="Select Color" name="color" (ionChange)="colorSelected(data.color);" [(ngModel)]="data.color">
+            <ion-option *ngFor="let data of colorList" value="{{data.color_name}}">{{data.color_name}}</ion-option>
+        </ion-select>
+    </ion-item>
+</ion-list>
+
+</div>
+
+<div class="pr-info mt16" >
+    <div class="header">Product Information</div>
+    
+    <div class="dummycnt" *ngIf="data.cat_no == ''">
+        To Add New Item Into Cart, Select Item Product Code.
+    </div>
+    <div class="qt-table pt0" *ngIf="order_qty == '1' && show == true">
+        <table>
+            <tr>
+                <th>Rate</th>
+                <th *ngIf="value1 != undefined " class="w62">Dis.(%)</th>
+                <th *ngIf="user_type == '3'" class="w62">Dis.(%)</th>
+                <th *ngIf="value1 != undefined " class="w62">Gst.(%)</th>
+                <th class="w45 text-center">Qty</th>
+                <th>Amount</th>
+                <th class="w40">&nbsp;</th>
+            </tr>
+            <tr>
+                <td *ngIf="value.net_price == 0">&#x20B9; {{value.price}}</td>
+                <td *ngIf="value.net_price != 0">&#x20B9; {{value.net_price}}</td>
+                <td *ngIf="value1 != undefined ">{{value1.discount}}</td>
+                <td *ngIf="user_type == '3'" class="pl5 pr5"><input class="wp100" type="text" (keyup)="calculateAmount1(value.qty,value.dealer_discount)" type="number" name="dealer_discount" #dealer_discount="ngModel" [readonly]="data.first_discount == '1'" [(ngModel)]="value.dealer_discount" ></td>
+                <td *ngIf="value1 != undefined">{{value1.gst}}</td>
+                <td class="pl5 pr5"><input class="wp100" type="text" (input)="value1 != undefined ? calculateAmount(value.qty) : calculateAmount1(value.qty,value.dealer_discount)" type="number" name="qty" #qty="ngModel" [(ngModel)]="value.qty" required></td>
+                <td>&#x20B9; {{value.amount}}</td>
+                <td class="pl5 pr5" ><button class="w30 pl0 pr0" (click)="addToCart()"><i class="material-icons">add</i></button></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+</ion-content>

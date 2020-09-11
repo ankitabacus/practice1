@@ -1,0 +1,59 @@
+<ion-header>    
+    <ion-navbar>
+        <ion-title>Travel List</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding style="background: #f8f8f8;">
+    
+    <div class="month-calander">
+        <button (click)="previousDate()"><i class="material-icons">keyboard_arrow_left</i></button>
+        <p>{{selected_date | date:'d MMM, y' }}</p>
+        <button (click)="nextDate()"><i class="material-icons">keyboard_arrow_right</i></button>
+    </div>
+
+    <div class="nothing-here" *ngIf="!travel_list.length">
+			<div class="outer">
+				<div class="innear">
+					<img src="assets/imgs/nothing.svg" alt="">
+					<p>No Travel Plan</p>
+				</div>
+			</div>
+		</div>
+    
+    <div padding-vertical *ngIf="travel_list.length">
+        <div *ngFor="let row of travel_list;let i=index">
+          
+                <div class="travel-list" *ngIf="row.travel_type=='Channel Partner Visit'" [ngClass]="row.flag =='1'?'visit-done':''">
+                        <div class="content">
+                            <div class="icon">{{row.company_name.substring(0,1).toUpperCase()}}</div>
+                            <div class="info">
+                                <P>{{row.company_name}}</P>
+                                <p>{{row.state}} / {{row.district}}</p>
+                            </div>
+                        </div>
+                        <div class="action" *ngIf="selected_date >= today_date">
+                            <button (click)="deleteTravelPlan(row.id,i,row.flag)"><i class="material-icons">delete_sweep</i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="travel-list" *ngIf="row.travel_type=='Area Visit'" [ngClass]="row.flag =='1'?'visit-done':''">
+                        <div class="content">
+                            <div class="info">
+                                <p>{{row.state}} / {{row.district}}</p>
+                            </div>
+                        </div>
+                        <div class="action" *ngIf="selected_date >= today_date">
+                            <button (click)="deleteTravelPlan(row.id,i,row.flag)"><i class="material-icons">delete_sweep</i></button>
+                        </div>
+                    </div>
+        </div>
+        
+    </div>
+    
+    
+    
+    <ion-fab right bottom >
+        <button ion-fab color="danger" (click)="goOnAddTravel()" ><ion-icon name="add"></ion-icon></button>
+    </ion-fab>
+</ion-content>

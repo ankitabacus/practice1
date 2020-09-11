@@ -1,0 +1,289 @@
+<ion-header>
+    
+    <ion-navbar>
+        <ion-title>End Checkin</ion-title>
+    </ion-navbar>
+    
+</ion-header>
+
+
+<ion-content>
+    
+    <div class="prlist">
+        <div class="box light-red-bg relative" *ngIf="checkin_data.other_name == ''">
+            <h1 class="font14 mb10">{{checkin_data.dr_name}}</h1>
+            <div class="heading border-none">
+                <div class="dist-name dflex">
+                    <div class="first-leter w50">{{checkin_data.dr_name | slice:0:1}}</div>
+                    <div class="name-number">
+                        <p>{{checkin_data.name}}</p>
+                        
+                        <div class="text-with-ic dflex mb0" *ngIf="checkin_data.dr_mobile_no">
+                            <i class="material-icons text-relat-icon">call</i>
+                            <p>{{checkin_data.dr_mobile_no}}</p>
+                        </div>
+                        <div class="text-with-ic dflex mb0" *ngIf="!checkin_data.dr_mobile_no">
+                            <i class="material-icons text-relat-icon">call</i>
+                            <p>N A</p>
+                        </div>
+                        
+                        
+                        <div class="text-with-ic dflex mb0" *ngIf="checkin_data.email">
+                            <i class="material-icons text-relat-icon">email</i>
+                            <a class="f14 underline mt8">{{checkin_data.email}}</a>
+                        </div>
+                        <div class="text-with-ic dflex mb0" *ngIf="!checkin_data.email">
+                            <i class="material-icons text-relat-icon">email</i>
+                            <a class="f14 underline mt8">N A</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="detail">
+                <p class="mt10"><strong>ADDRESS</strong></p>
+                <p class="f13" *ngIf="checkin_data.district || checkin_data.state || checkin_data.pincode">{{checkin_data.address | titlecase}} {{checkin_data.city}} {{checkin_data.district}} {{checkin_data.state}} {{checkin_data.pincode}}</p>
+                <p class="f13" *ngIf="!checkin_data.district && !checkin_data.state && !checkin_data.pincode">N A</p>
+                <div class="cs-table-list" style="margin: 3px -10px;">
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="box light-red-bg relative" *ngIf="checkin_data.other_name != ''">
+            <div class="heading border-none">
+                <div class="dist-name dflex">
+                    <div class="first-leter w50">O</div>
+                    <div class="name-number">
+                        <p>{{checkin_data.other_name}}</p>
+                        
+                        <div class="text-with-ic dflex mb0" *ngIf="checkin_data.mobile">
+                            <i class="material-icons text-relat-icon">call</i>
+                            <p>{{checkin_data.mobile}}</p>
+                        </div>
+                        <div class="text-with-ic dflex mb0" *ngIf="!checkin_data.mobile">
+                            <i class="material-icons text-relat-icon">call</i>
+                            <p>N A</p>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    
+    <form class="pt0" *ngIf="checkin_data.checkin_with_new_dealer!='true'" [formGroup]="checkinForm" novalidate (ngSubmit)="end_visit(checkin_data.checkin_id,checkin.description)"  padding>
+        
+        <div class="vstime">
+            <p>Start Time</p>
+            <p>{{checkin_data.visit_start | date: 'h:mm a'}}</p>
+        </div>
+        
+        <div class="csnninput">
+            <h1>Description</h1>
+            <textarea formControlName="description" [(ngModel)]="checkin.description"></textarea>
+            <p *ngIf="checkinForm.get('description').hasError('required') && checkinForm.get('description').touched"  class="error-left relative">Description is required!</p>
+        </div>
+        <div class="add-new p0 pt16">
+            <h4 >Upload Document </h4>
+            <div class="uplode-image" >
+                <ul>
+                    
+                    <li *ngFor="let pic of image_data;let i = index;">
+                        <img src="{{pic}}">
+                        <button><i class="material-icons" (click)="remove_image(i)">clear</i></button>
+                        
+                    </li>
+                    <li (click)="captureMedia()">
+                        <label>
+                            <input type="file" style="display: none;">
+                            <div class="other">
+                                <a ><i class="material-icons" >camera_alt</i></a>
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="endcheck inherit p0">
+            <div class="wp100 mt16">
+                <button color="theme" ion-button block round>End Visit</button>
+            </div>
+        </div>
+        
+        <!-- <div class="refbtn mt40">
+            <button color="theme"  ion-button block round >End Visit</button>
+        </div>   -->
+        
+    </form>
+    
+    
+    <form class="pt0"  *ngIf="checkin_data.checkin_with_new_dealer=='true'" [formGroup]="checkinFormWithNewDealer" novalidate (ngSubmit)="end_visitwithNewDealer(checkin_data.checkin_id,checkin.description)"  padding>
+        
+        <div class="vstime">
+            <p>Start Time</p>
+            <p>{{checkin_data.visit_start | date: 'h:mm a'}}</p>
+        </div>
+        
+        
+        <div class="csnninput">
+            <h1>Description</h1>
+            <textarea formControlName="description" [(ngModel)]="checkin.description"></textarea>
+            <p *ngIf="checkinFormWithNewDealer.get('description').hasError('required') && checkinFormWithNewDealer.get('description').touched"  class="error-left relative">Description is required!</p>
+        </div>
+
+        <div class="edit m0">
+            <ion-list>
+                <div>
+                    <ion-item >
+                        <ion-label floating><span>Company Name</span></ion-label>
+                        <ion-input type="text" formControlName="companyName" [(ngModel)]="checkin.company_name" ></ion-input>
+                    </ion-item>
+                    <p *ngIf="checkinFormWithNewDealer.get('companyName').hasError('required') && checkinFormWithNewDealer.get('companyName').touched"  class="error-left relative">Complany Name is required!</p>
+                    
+                    <ion-item>
+                        <ion-label floating><span>Name</span></ion-label>
+                        <ion-input type="text" formControlName="name" [(ngModel)]="checkin.name" ></ion-input>
+                    </ion-item>
+                    <p *ngIf="checkinFormWithNewDealer.get('name').hasError('required') && checkinFormWithNewDealer.get('name').touched"  class="error-left relative">Name is required!</p>
+                    
+                    
+                    <ion-item>
+                        <ion-label floating><span>GST No </span></ion-label>
+                        <ion-input type="text" min="15" max="15" formControlName="gst" (input)="check_gst_existence(checkin.gst)"  [(ngModel)]="checkin.gst" ></ion-input>
+                    </ion-item>
+                    
+                
+                    <ion-item>
+                        <ion-label floating><span>Mobile No</span></ion-label>
+                        <ion-input type="tel" minlength="10" maxlength="10" (input)="check_mobile_existence(checkin.mobile)" formControlName="mobile"  [(ngModel)]="checkin.mobile" ></ion-input>
+                    </ion-item>
+                     <p *ngIf="checkinFormWithNewDealer.get('mobile').hasError('required') && checkinFormWithNewDealer.get('mobile').touched"  class="error-left relative">Invalid</p>
+                    
+                    <ion-item class="whtapp">
+                        <ion-label floating><span>WhatsApp No</span></ion-label>
+                        <ion-input type="tel"  minlength="10" maxlength="10"  formControlName="whatsapp"  [(ngModel)]="checkin.whatsapp" ></ion-input>
+                    </ion-item>
+              
+                    <ion-item >
+                        <ion-label floating><span>Email</span></ion-label>
+                        <ion-input type="email" formControlName="email" [(ngModel)]="checkin.email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"></ion-input>
+                    </ion-item>
+                    <p *ngIf="checkinFormWithNewDealer.get('email').hasError('required') && checkinFormWithNewDealer.get('email').touched"  class="error-left relative">Email is required!</p>
+                    <ion-item>
+                        <ion-label floating><span>Address</span></ion-label>
+                        <ion-input type="text"formControlName="address" [(ngModel)]="checkin.address" ></ion-input>
+                    </ion-item>
+                    <p *ngIf="checkinFormWithNewDealer.get('address').hasError('required') && checkinFormWithNewDealer.get('address').touched"  class="error-left relative">Address is required!</p>
+                    
+                    <ion-item>
+                        <ion-label floating><span>Pincode</span></ion-label>
+                        <ion-input type="tel"  minlength="6" maxlength="6" formControlName="pincode" [(ngModel)]="checkin.pincode" (input)="get_pincode_area_name(checkin.pincode)"  ></ion-input>
+                    </ion-item>
+                    
+                    
+                    <p *ngIf="checkinFormWithNewDealer.get('pincode').hasError('required') && checkinFormWithNewDealer.get('pincode').touched"  class="error-left relative">Pincode is required!</p>
+                    
+                    <div class="csslecttype mt20">
+                        <ion-item>
+                            <ion-label class="pl15">State</ion-label>
+                            <ionic-selectable
+                            item-content 
+                            [(ngModel)]="checkin.state"
+                            [items]="state_list"
+                            itemValueField="state_name"
+                            itemTextField="state_name"
+                            (onChange)="getDistrict(checkin.state.state_name)"
+                            formControlName="stateName"
+                            [canSearch]="true">
+                        </ionic-selectable>
+                    </ion-item>
+                    <p *ngIf="checkinFormWithNewDealer.get('stateName').hasError('required') && checkinFormWithNewDealer.get('stateName').touched"  class="error-left relative">State is required!</p>
+                </div>
+                
+                <div class="csslecttype mt20">
+                    <ion-item>
+                        <ion-label class="pl15">District</ion-label>
+                        <ionic-selectable
+                        item-content 
+                        [(ngModel)]="checkin.district"
+                        [items]="district_list"
+                        itemValueField="district_name"
+                        itemTextField="district_name"
+                        formControlName="districtName"
+                        (onChange)="getCity(checkin.state.state_name,checkin.district.district_name)"
+                        [canSearch]="true">
+                    </ionic-selectable>
+                </ion-item>
+                <p *ngIf="checkinFormWithNewDealer.get('districtName').hasError('required') && checkinFormWithNewDealer.get('districtName').touched"  class="error-left relative">District is required!</p>
+            </div>
+            
+            
+            <div class="csslecttype mt20">
+                <ion-item>
+                    <ion-label class="pl15">City</ion-label>
+                    <ionic-selectable
+                    item-content 
+                    [(ngModel)]="checkin.city"
+                    [items]="city_list"
+                    itemValueField="city"
+                    itemTextField="city"
+                    formControlName="city"
+                    [canSearch]="true">
+                </ionic-selectable>
+            </ion-item>
+            <p *ngIf="checkinFormWithNewDealer.get('city').hasError('required') && checkinFormWithNewDealer.get('city').touched"  class="error-left relative">City is required!</p>        </div>
+        
+        
+        <!-- <ion-item>
+            <ion-label floating><span>Date of Birth</span></ion-label>
+            <ion-datetime display-format="MMM DD, YYYY" formControlName="dob" [(ngModel)]="checkin.dob"></ion-datetime>
+        </ion-item>
+        
+        <ion-item>
+            <ion-label floating><span>Date of Anniversary</span></ion-label>
+            <ion-datetime display-format="MMM DD, YYYY" formControlName="anniversary_date" [(ngModel)]="checkin.anniversary_date"></ion-datetime>
+        </ion-item> -->
+        
+    </div>
+    
+</ion-list>
+<div >
+</div>
+</div>
+<div class="add-new p0 pt16">
+    <h4 >Upload Document </h4>
+    <div class="uplode-image" >
+        <ul>
+            
+            <li *ngFor="let pic of image_data;let i = index;">
+                <img src="{{pic}}">
+                <button><i class="material-icons" (click)="remove_image(i)">clear</i></button>
+                
+            </li>
+            <li (click)="captureMedia()">
+                <label>
+                    <input type="file" style="display: none;">
+                    <div class="other">
+                        <a ><i class="material-icons" >camera_alt</i></a>
+                    </div>
+                </label>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+<div class="endcheck inherit p0">
+    <div class="wp100 mt16">
+        <button color="theme" ion-button block round>End Visit</button>
+    </div>
+</div>
+
+</form>
+
+</ion-content>

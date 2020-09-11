@@ -1,0 +1,54 @@
+
+<ion-header>
+    
+    <ion-navbar>
+        <ion-title>Order Type</ion-title>
+        <ion-buttons end class="search-icon">
+            <button ion-button icon-only (click)="dismiss();">
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+    
+</ion-header>
+
+
+<ion-content padding class="first-btn-bg">
+    <ion-list radio-group [(ngModel)]="data.order_type" name="order_type" (ngModelChange)="get_order_type(data.order_type)">
+        <ion-item>
+            <ion-label>Channel Partner</ion-label>
+            <ion-radio value="1" ></ion-radio>
+        </ion-item>
+        <ion-item class="mt16 mb16">
+            <ion-label>Direct Dealer</ion-label>
+            <ion-radio value="7"></ion-radio>
+        </ion-item>
+        <ion-item>
+            <ion-label>Dealer</ion-label>
+            <ion-radio value="3"></ion-radio>
+        </ion-item>
+    </ion-list>
+    
+    
+    <div class="csslecttype" *ngIf="data.order_type == '1' || data.order_type == '7' || data.order_type == '3'">
+        <ion-item >
+            <ion-label>Select Company</ion-label>
+            <ionic-selectable item-content  [(ngModel)]="data.id" [items]="distribution_network" itemValueField="id" itemTextField="company_name" name="company_name" value="id" [canSearch]="true" (onChange)="test(data.id)" #selectComponent>
+            </ionic-selectable>
+        </ion-item>
+    </div>
+    
+    
+    <div class="csslecttype" *ngIf="data.order_type == '3' && show == '1'">
+        <ion-item>
+            <ion-label>Select Distributor</ion-label>
+            <ionic-selectable item-content [(ngModel)]="data.distributor_id" [items]="distributor_list" itemValueField="id" itemTextField="company_name" name="company_name" value="id" [canSearch]="true" (onChange)="test1(data.distributor_id)">
+            </ionic-selectable>
+        </ion-item>
+        
+        <ion-item>
+            <ion-label floating><span>Mobile No</span></ion-label>
+            <ion-input type="tel" minlength="10" maxlength="10"  [(ngModel)]="data.mobile" required></ion-input>
+        </ion-item>
+    </div>
+</ion-content>

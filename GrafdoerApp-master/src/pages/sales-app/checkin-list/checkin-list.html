@@ -1,0 +1,189 @@
+ <ion-header>
+    
+    
+    <ion-navbar>
+        
+        <ion-title>
+            <h1>Check In List</h1>
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+    <div class="padding16 no-dtp" *ngIf="(!today_checkin.length) && load_data == '1'">
+        <p>No Check-Ins Today</p>
+    </div>
+    
+    <div class="csn-heading" *ngIf="today_checkin.length "><p>Today</p></div>
+    
+    <div class="checkinlist">
+        <a *ngFor="let val of today_checkin" (click)="val.description == '' ? end_visit():checkin_detail(val.checkin_id)">
+            <div class="csheader spbr" >
+                <div class="cs-left" style="width: 100%;">
+                    <p>Start : <span>{{val.visit_start | date: 'h:mm a'}}</span></p>
+                    <p *ngIf="val.description != ''">End : <span>{{val.visit_end | date: 'h:mm a'}}</span></p>
+                </div>
+                <div class="cs-right" *ngIf="val.total_time != ''" style="width: 130px; text-align: right;">
+                    
+                    <p >Time : <span>{{val.total_time}} </span></p>
+                </div>
+                
+                
+            </div>
+            
+            <div *ngIf="val.dr_id != 0">
+                <div class="csmiddle" >
+                    <div class="csicon">{{val.dr_name.substring(0,1).toUpperCase()}}</div>
+                    <div class="csdesc pcvr" style="white-space: inherit;">
+                        <!-- <h1>{{val.dr_name | titlecase}}</h1> -->
+                        <!-- <p *ngIf="val.address == '' && val.visit_end != '0000-00-00 00:00:00' && val.description  == ''"><i class="material-icons">place</i>N A</p>
+                            <p *ngIf="val.address != '' && val.visit_end != '0000-00-00 00:00:00' && val.description != ''"><i class="material-icons">place</i>{{val.address}}</p> -->
+                            <p style="width: 100%;"><i class="material-icons">apartment</i>{{val.dr_name | titlecase}}</p>
+                            <p style="width: 100%;"><i class="material-icons">person</i>{{val.name ? val.name : '--'}}</p>
+                            <p style="width: 100%;"><i class="material-icons">call</i>{{val.mobile_no ? val.mobile_no : '--'}}</p>
+                        </div>
+                    </div>
+                    <p class="create-by" *ngIf="val.creator"><strong>Created By:</strong>{{val.creator}}</p>
+                </div>
+                
+                
+                <div *ngIf="val.dr_id == 0">
+                    <div class="csmiddle" >
+                        <div class="csicon">O</div>
+                        <!-- <div class="csheader spbr" >
+                            <div class="cs-left">
+                                <p>Start : <span>{{val.visit_start | date:'hh:mm a'}}</span></p>
+                                <p *ngIf="val.visit_end != '0000-00-00 00:00:00'">End : <span>{{val.visit_end | date:'hh:mm a'}}</span></p>
+                            </div>
+                            <div class="cs-right" *ngIf="val.remark != ''">
+                                
+                                <p >Time : <span>{{val.total_time}} min</span></p>
+                            </div>
+                            
+                            
+                        </div> -->
+                        <div class="csdesc pcvr no-white-space">
+                            <!-- <h1>{{val.other_name | titlecase}}</h1> -->
+                            <!-- <p ng-if="val.address == '' && val.visit_end == '0000-00-00 00:00:00'"><i class="material-icons">place</i>N A</p> -->
+                            <!-- <p *ngIf="val.address != '' && val.visit_end != '0000-00-00 00:00:00'"><i class="material-icons">place</i>{{val.address}}</p> -->
+                            <p style="width: 100%;"><i class="material-icons">apartment</i>{{val.other_name | titlecase}}</p>
+                            <p style="width: 100%;"><i class="material-icons">person</i>{{val.name ? val.name : '--'}}</p>
+                            <p style="width: 100%;"><i class="material-icons">call</i>{{val.mobile_no ? val.mobile_no : '--'}}</p>
+                        </div>
+                    </div>
+                    
+                    <p class="create-by" *ngIf="val.creator"><strong>Created By:</strong>{{val.creator}}</p>
+                </div>
+                
+                
+            </a>
+            
+        </div>
+        
+        <!-- <div class="padding16">
+            <button type="button" (click)="today_see_all_checkin()" class="seeall">SEE ALL <i class="material-icons">keyboard_arrow_right</i></button>
+        </div> -->
+        
+        <div class="csn-heading">
+            <p>Earlier</p>
+            
+            <label class="chedate">
+                <input type="date" [max]="date" name="check_in_date" [(ngModel)]="search.check_in_date" (ngModelChange)="checkin_list(search.check_in_date)">
+                <i class="material-icons">date_range</i>
+            </label>
+            
+        </div>
+        
+        <div class="padding16 no-dtp" *ngIf="!previous_checkin.length && search.check_in_date">
+            <p>No Previous Check-In's</p>
+        </div>
+        
+        <div class="checkinlist" *ngIf="previous_checkin.length">
+            <a *ngFor="let val of previous_checkin" (click)="checkin_detail(val.checkin_id)" >
+                <div class="csheader">
+                    <div class="cs-left" style="width: 100%;">
+                            <p>Start : <span>{{val.visit_start | date:'hh:mm a'}}</span></p>
+                            <p *ngIf="val.visit_end != '0000-00-00 00:00:00'" style="margin-left: 10px !important;">End : <span>{{val.visit_end | date:'hh:mm a'}}</span></p>
+                       
+                    </div>
+                    <div class="cs-right flex-right" style="width: 130px;">
+                            <p style="width: 100%; text-align: right;"><span>{{val.activity_date | date: 'MMM d, y'}}</span></p>
+                    </div>
+                    <!-- <div class="cs-right">
+                        <p>Visit Start : <span>{{val.visit_start | date: 'h:mm a'}}</span></p>
+                    </div> -->
+                </div>
+                
+                
+                <div *ngIf="val.dr_id != 0" >
+                    <div class="csmiddle" >
+                        <div class="csicon">{{val.dr_name.substring(0,1).toUpperCase()}}</div>
+                        <div class="csdesc pcvr no-white-space">
+                            <!-- <h1>{{val.dr_name | titlecase }}</h1> -->
+                            <!-- <p *ngIf="val.address == ''"><i class="material-icons">place</i>N A</p>
+                                <p *ngIf="val.address != ''"><i class="material-icons">place</i>{{val.address}}</p>-->
+                                <p style="width: 100%;"><i class="material-icons">apartment</i>{{val.dr_name | titlecase}}</p>
+                                <p style="width: 100%;"><i class="material-icons">person</i>{{val.name ? val.name : '--'}}</p>
+                                <p style="width: 100%;"><i class="material-icons">call</i>{{val.mobile_no ? val.mobile_no : '--'}}</p>
+                            </div>
+                        </div>
+                        
+                        <p class="create-by" *ngIf="val.creator"><strong>Created By:</strong>{{val.creator}}</p>
+                    </div>
+                    
+                    
+                    <div *ngIf="val.dr_id == 0">
+                        <div class="csmiddle" *ngIf="val.dr_id == 0">
+                            <div class="csicon">O</div>
+                            <div class="csdesc pcvr">
+                                <h1></h1>
+                                <!-- <p *ngIf="val.address == ''"><i class="material-icons">place</i>N A</p>
+                                    <p *ngIf="val.address != ''"><i class="material-icons">place</i>{{val.address}}</p> -->
+                                    <p style="width: 100%;"><i class="material-icons">apartment</i>{{val.other_name | titlecase}}</p>
+                                    <p style="width: 100%;"><i class="material-icons">person</i>{{val.name ? val.name : '--'}}</p>
+                                    <p style="width: 100%;"><i class="material-icons">call</i>{{val.mobile_no ? val.mobile_no : '--'}}</p>
+                                </div>
+                            </div>
+                            <p class="create-by" *ngIf="val.creator"><strong>Created By:</strong>{{val.creator}}</p>
+                        </div>
+                        
+                    </a>
+                    
+                
+     <!-- infinite scroll -->
+  
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)"  *ngIf="flag!=1">
+         <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+     </ion-infinite-scroll>
+    <!-- infinite scroll end -->
+                
+                </div>
+                
+                
+                <div class="h80"></div>
+
+  
+                
+                
+            </ion-content>
+            
+            
+            <div class="endcheck">
+                <div class="wp100 mt40" *ngIf="val == 1 && checkin_data.other_name == ''">
+                    <button color="theme" ion-button block round (click)="end_visit(checkin_id)">End Visit with {{checkin_data.dr_name}}</button>
+                </div>  
+                <div class="wp100 mt40" *ngIf="val == 1 && checkin_data.other_name != ''">
+                    <button color="theme" ion-button block round (click)="end_visit(checkin_id)">End Visit with {{checkin_data.other_name}}</button>
+                </div> 
+            </div>
+            
+            <ion-fab right bottom *ngIf="val == 0">
+                <button ion-fab color="danger" (click)="addCheckin()"><ion-icon name="add"></ion-icon></button>
+            </ion-fab>
+            
+            
+            

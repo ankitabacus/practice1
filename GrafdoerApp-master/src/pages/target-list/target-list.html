@@ -1,0 +1,140 @@
+<ion-header>  
+  <ion-navbar>
+    <ion-title>Target</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<div class="side-tabs">
+  <button class="ss-tabs" (click)="getTargetList(row.month,row.year,data.user_id)" *ngFor="let row of financialYearList" [ngClass]="{'active':row.month_no == current_month_no }">
+    <h2>{{row.month}}</h2>
+    <p>{{row.year}}</p>
+  </button>
+</div>
+
+<ion-content>
+  
+  <div class="more">
+    <div class="csslecttype drop">
+      <ion-item>
+        <ion-label>User</ion-label>
+        <ion-select  name="user_id" [(ngModel)]="data.user_id" (ngModelChange)="getTargetList(data.month,data.year,data.user_id);getFinancialYear()" >
+          <ion-option value="All">All</ion-option>
+          <ion-option value=''>Self</ion-option>
+          <ion-option *ngFor="let row of salesUserList" value="{{row.asm_id}}">{{row.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+    </div>
+  </div>
+  
+  <div class="whole-main">
+    <div class="blank wp100">
+      
+      <div class="ss-main">
+        <h1>Primary Target</h1>
+        <div class="empty" *ngIf="!userTargetData.pri_achivement">
+          <p>Not assigned</p>
+        </div>
+        <div *ngIf="userTargetData.pri_achivement">
+          <div class="target" [ngClass]="{'achieve':userTargetData.pri_achivement==userTargetData.pri_target}">
+            <div class="outer">
+              <div class="innear">
+                <div class="circle-1">
+                  <div class="outer">
+                    <div class="innear">
+                      <div class="circle-2">
+                        <p>achieved</p>
+                        <h1>&#x20B9;{{userTargetData.pri_achivement}}</h1>
+                        <div class="skew-1">
+                          <div class="skew-2">
+                            <div class="squre">
+                              <p>target</p>
+                              <h1>&#x20B9;{{userTargetData.pri_target}}</h1>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dash-box">
+            <div class="side-one">
+              <p>Balance</p>
+              <h1>₹ {{userTargetData.pri_balance}}</h1>
+            </div>
+            <div class="side-one" *ngIf="current_month==data.selectedMonth">
+              <p>Remaining Days</p>
+              <h1>{{financialYearList[0]?.no_of_days}} Day's</h1>
+            </div>
+            <div class="side-one">
+              <p>Today Achieved</p>
+              <h1 *ngIf="userTargetData.pri_daily_achievement">₹ {{userTargetData.pri_daily_achievement |number:'1.0-0'}}</h1>
+              <h1 *ngIf="!userTargetData.pri_daily_achievement">₹ 0</h1>
+            </div>
+            <div class="side-one">
+              <p>DRR</p>
+              <h1 *ngIf="primary_dsr">₹ {{primary_dsr |number:'1.0-0'}}</h1>
+              <h1 *ngIf="!primary_dsr">₹ 0</h1>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="ss-main mt16">
+        <h1>Secondary Target</h1>
+        <div class="empty" *ngIf="!userTargetData.sec_achivement">
+          <p>Not assigned</p>
+        </div>
+        <div *ngIf="userTargetData.sec_achivement">
+          <div class="target" [ngClass]="{'achieve':userTargetData.sec_achivement==userTargetData.sec_target}">
+            <div class="outer">
+              <div class="innear">
+                <div class="circle-1">
+                  <div class="outer">
+                    <div class="innear">
+                      <div class="circle-2">
+                        <p>achieved</p>
+                        <h1>&#x20B9;{{userTargetData.sec_achivement}}</h1>
+                        <div class="skew-1">
+                          <div class="skew-2">
+                            <div class="squre">
+                              <p>target</p>
+                              <h1>&#x20B9;{{userTargetData.sec_target}}</h1>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dash-box">
+            <div class="side-one">
+              <p>Balance</p>
+              <h1>₹ {{userTargetData.sec_balance}}</h1>
+            </div>
+            <div class="side-one" *ngIf="current_month==data.selectedMonth">
+              <p>Remaining Days</p>
+              <h1>{{financialYearList[0]?.no_of_days}} Day's</h1>
+            </div>
+            <div class="side-one">
+                <p>Today Achieved</p>
+                <h1 *ngIf="userTargetData.sec_daily_achievement">₹ {{userTargetData.sec_daily_achievement  |number:'1.0-0'}}</h1>
+                <h1 *ngIf="!userTargetData.sec_daily_achievement">₹ 0</h1>
+              </div>
+              <div class="side-one">
+                <p>DRR</p>
+                <h1 *ngIf="secondary_dsr">₹ {{secondary_dsr |number:'1.0-0'}}</h1>
+                <h1 *ngIf="!secondary_dsr">₹ 0</h1>
+              </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</ion-content>

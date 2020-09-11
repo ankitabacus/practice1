@@ -1,0 +1,60 @@
+
+<ion-header>
+    
+    <ion-navbar>
+        <ion-title>Check In Detail</ion-title>
+    </ion-navbar>
+    
+</ion-header>
+
+
+<ion-content>
+    <div class="csm-detail chkdt pb0">
+        <div class="top">
+            <div *ngIf="checkin_data.dr_id != 0" class="cs-left">{{checkin_data.dr_name | slice:0:1 }}</div>
+            <div *ngIf="checkin_data.dr_id == 0" class="cs-left">O</div>
+            
+            <div class="cs-right">
+                <h1 *ngIf="checkin_data.dr_id != 0">{{checkin_data.dr_name | titlecase}}</h1>
+                <h1 *ngIf="checkin_data.dr_id == 0">{{checkin_data.other_name | titlecase}}</h1>
+                
+                <p *ngIf="checkin_data.dr_id != 0"><i class="material-icons">call</i>{{checkin_data.mobile_no}}</p>
+                <p *ngIf="checkin_data.dr_id == 0"><i class="material-icons">call</i>{{checkin_data.mobile}}</p>
+
+            </div>
+        </div>
+        
+        <div class="dsadd">
+            <h1>LOCATION</h1>
+            <p>{{checkin_data.address | titlecase}}</p>
+        </div>
+    </div>
+    
+    <div class="oneinfo">
+        <div class="figure">
+            <p>Date</p>
+            <p>{{checkin_data.activity_date | date: 'MMM d, y'}}</p>
+        </div>
+        <div class="figure">
+            <p>Total Time</p>
+            <p>{{checkin_data.total_time ? checkin_data.total_time : '--'}}</p>
+        </div>
+        <div class="figure" *ngIf="checkin_data.visit_start != '0000-00-00 00:00:00'">
+            <p>Visit Start</p>
+            <p>{{checkin_data.visit_start | date: 'H:mm a'}}</p>
+        </div>
+        <div class="figure" *ngIf="checkin_data.visit_end != '0000-00-00 00:00:00'">
+            <p>Visit End</p>
+            <p>{{checkin_data.visit_end | date: 'H:mm a'}}</p>
+        </div>
+    </div>
+    
+    <div class="csm-detail chkdt pt0">
+        <div class="dsadd">
+            <h1>DESCRIPTION</h1>
+            <p>{{checkin_data.description ? checkin_data.description : '--'}}</p>
+        </div>
+    </div>
+    
+    
+</ion-content>

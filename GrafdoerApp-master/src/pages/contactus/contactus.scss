@@ -1,0 +1,121 @@
+// page-contactus {
+//     ion-slides
+//     {
+//         .swiper-pagination-bullet-active
+//         {
+//             background: $theme1 !important;
+//         }
+//         .swiper-pagination-bullet
+//         {
+//             width: 10px;
+//             height: 10px;
+//             background: transparent;
+//             border: 2px solid $theme1;
+//             opacity: 1;
+//             box-shadow: 0px 3px 6px 0px #00000061;
+//         }
+
+//         ion-slide
+//         {
+//             .background
+//             {
+//                 background: #808080;
+//                 iframe
+//                 {
+//                     height: 84vh;
+//                     .profile-photo
+//                     {
+//                         img
+//                         {
+//                             display: none;
+//                         }
+//                     }
+//                 }
+//             }
+
+//             .content
+//             {
+//                 margin: 16px;
+//                 position: absolute;
+//                 bottom: 16px;
+//                 background: #fff;
+//                 padding: 16px;
+//                 border-radius: 10px;
+//                 text-align-last: left;
+
+//                 .sprt
+//                 {
+//                     background: #ccc;
+//                     height: 1px;
+//                     margin-bottom: 15px;
+//                     margin-left: -15px;
+//                     margin-right: -15px;
+//                 }
+
+//                 h1
+//                 {
+//                     padding-bottom: 5px !important;
+//                     font-size: 16px;
+//                     color: $theme1;
+//                     position: relative;
+//                     display: inline-block;
+//                     margin-bottom: 20px !important;
+
+//                     &:after
+//                     {
+//                         background: #d8d8d8;
+//                         content: "";
+//                         position: absolute;
+//                         width: 130%;
+//                         height: 3px;
+//                         left: 0px;
+//                         bottom: 0px;
+//                         border-radius: 3px;
+//                     }
+//                 }
+//                 .dflex
+//                 {
+//                     margin-bottom: 16px;
+                    
+//                     img
+//                     {
+//                         height: 20px;
+//                         margin-top: 2px !important;
+//                         line-height: 26px;
+//                     }
+
+//                     p, a
+//                     {
+//                         color: #808080;
+//                         font-size: 12px;
+//                         letter-spacing: 1px;
+//                         padding-right: 16px !important;
+//                         line-height: 22px;
+//                         padding-left: 16px !important;
+//                         text-align: left;
+//                     }
+
+//                     a
+//                     {
+//                         color: #4C00CF;
+//                         text-decoration: none;
+//                     }
+
+//                     h2
+//                     {
+//                         color: #808080;
+//                         font-size: 14px;
+//                         letter-spacing: 1px;
+//                         padding-right: 16px !important;
+//                         line-height: 26px;
+//                     // }
+//                 }
+//             }
+//         }
+//     }
+    
+//     .place-card.place-card-large{
+        
+//         display: none !important;
+//     }
+// }

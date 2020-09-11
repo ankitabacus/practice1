@@ -1,0 +1,98 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>
+			<h1>Lead Detail</h1>
+		</ion-title>
+		<ion-buttons end class="notifications">
+			<button ion-button icon-only (click)="home()">
+				<ion-icon name="md-home"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content class="cs-padding"> 
+	<div class="back-logo">
+		<div class="outer">
+			<div class="innear">
+				<img src="assets/imgs/main-imgs/back-logo.svg" alt="">
+			</div>
+		</div>
+	</div>
+	
+	<div class="main m16" >
+		<div class="one">
+			<h1>Name</h1>
+			<p>{{lead_detail.company_name}}</p> 
+		</div>
+		<div class="one">
+			<h1>Email-Id</h1>
+			<a class="under-line fs14">{{lead_detail.email}}</a>
+		</div>
+		<div class="one">
+			<h1>Mobile No.</h1>
+			<a class="under-line fs14">{{lead_detail.mobile}}</a>
+		</div>
+		<div class="one">
+			<h1>Landline No.</h1>
+			<a class="under-line fs14">{{lead_detail.landline_no}}</a>
+		</div>
+		<!-- <div class="one">
+			<h1>Created Date</h1>
+			<p>{{leadconsumerdetail.date_created}}</p>
+		</div> -->
+		
+		<!-- <div class="one">
+			<h1>Country</h1>
+			<p>XYZGREY</p>
+		</div> -->
+		<div class="one">
+			<h1>Address</h1>
+			<p>{{lead_detail.address}}</p>
+		</div>
+		
+		
+		<div class="dflex"> 
+			<div class="one rborder-none">
+				<h1>State</h1>
+				<p>{{lead_detail.state}}</p>
+			</div>
+			<div class="one">
+				<h1>District</h1>
+				<p>{{lead_detail.district}}</p>
+			</div>
+		</div>
+		<!-- <div class="one">
+			<h1>City</h1>
+			<p>XYZGREY</p>
+		</div> -->
+		<div class="one">
+			<h1>Pin Code</h1>
+			<p>{{lead_detail.pincode}}</p>
+		</div>
+		<!-- <div class="one">
+			<h1>Source</h1>
+			<p>XYZGREY</p>           
+		</div>
+		<div class="one">
+			<h1>Other Source</h1>
+			<p>XYZGREY</p>           
+		</div> -->
+	</div>
+	
+	<div class="table m16">
+		<div class="cs-heading">Contact Person</div>
+		<table class="mt16 mb16">
+			<tr>
+				<th>Name</th>
+				<th class="w100">Mobile No 2</th>
+				<th class="w100">Mobile No 1</th>
+			</tr>
+			<tr *ngFor="let data of contact_person">
+				<td>{{data.contact_person}}</td>
+				<td>{{data.contact_1}}</td>
+				<td>{{data.contact_2}}</td>
+			</tr>
+		</table>
+	</div>
+</ion-content>

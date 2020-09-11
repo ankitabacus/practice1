@@ -1,0 +1,36 @@
+<ion-header class="catalogue-header" no-border>
+	<ion-navbar>
+		<ion-title>My Leaves</ion-title>
+		<ion-buttons end class="add-btn">
+			
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	
+	
+	<div padding>
+		<div class="leave-list" *ngFor="let data of leave_data">
+			<div class="head">
+				<h2>{{data.subject | titlecase}}</h2>
+				<p>{{data.status}}</p>
+			</div>
+			
+			<div class="mid-content">
+				<p><span>Date : </span> {{data.leave_start_date | date:'d MMM, y'}} <ng-container><span>TO</span> {{data.leave_end_date | date:'d MMM, y'}}</ng-container></p>
+				<p *ngIf="data.total_days"><span>Total Days :</span> {{data.total_days}}</p>
+				<p *ngIf="data.reject_remark"><span>Reject Remark :</span> {{data.reject_remark}}</p>
+				<p><span>Description :</span> {{data.description}}</p>
+			</div>
+			
+
+		</div>
+		
+	</div>
+	
+	<ion-fab right bottom >
+		<button ion-fab color="danger" (click)="addPage()" ><ion-icon name="add"></ion-icon></button>
+	</ion-fab>
+	
+</ion-content>

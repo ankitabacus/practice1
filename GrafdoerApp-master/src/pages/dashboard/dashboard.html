@@ -1,0 +1,109 @@
+<ion-header [hidden]="true">
+    
+    <ion-navbar>
+        <ion-title>Dashboard</ion-title>
+    </ion-navbar>
+    
+</ion-header>
+
+
+<ion-content style="background: #f4fbfb;">
+    <div class="ds-top">
+        <button class="hm-menu" (click)="open_menu()"><i class="material-icons">menu</i></button>
+        <div class="dslogo">
+            <img src="assets/imgs/home_logo.png" alt="">
+        </div>
+        <h1>Hello <span>{{user_data.name | titlecase}}</span></h1>
+        <p *ngIf="last_attendence_data.start_time != ''">Your Login time is <span>{{start_attend_time}}</span></p>        
+    </div>
+    <div class="wrkst">
+        <button type="button" *ngIf="(last_attendence_data.start_time == '') && (last_attendence_data.stop_time == '' )" (click)="openModal()">Start Time</button>
+        <button type="button" class="redbg" *ngIf="(last_attendence_data.stop_time == '00:00:00') && (last_attendence_data.start_time != '00:00:00' )" (click)="presentAlert()">Stop Time</button>
+    </div>
+    
+    <div class="pt0 pb0">
+        <div class="dtbtns">
+            
+            <!-- <div class="csfigure">
+                <div class="cs-left">
+                    <div class="counter">
+                        <h2>0</h2>
+                        <p>Pending</p>
+                        
+                    </div>
+                    <h1 class="dghe"><span>0</span> Meeting are <strong>Done</strong></h1>
+                </div>
+            </div> -->
+            
+            <div class="csfigure mb16">
+                <div class="cs-left">
+                    <div class="counter">
+                        <h2>{{today_checkin.today_checkin}}</h2>
+                        <p>Today Check In</p>
+                    </div>
+                    <h1 *ngIf="today_checkin.today_checkin == 0" class="dghe" (click)="(last_attendence_data.start_time == '') && (currentTime>'09:00:00' && currentTime<'18:00:00') ? start_time7() : start_visit()">Create Check In</h1>
+                    <h1 class="dghe" *ngIf="today_checkin.today_checkin > 0" (click)="(last_attendence_data.start_time == '') && (currentTime>'09:00:00' && currentTime<'18:00:00') ? start_time1() : goToCheckin()">Check In's are <strong>Completed</strong></h1>
+                </div>
+            </div>
+            
+            <div class="csfigure mb16" (click)="(last_attendence_data.start_time == '') && (currentTime>'09:00:00' && currentTime<'18:00:00')? start_time2() : primary_order()">
+                <div class="cs-left">
+                    <div class="counter">
+                        <h2>{{total_primary_order.total_primary_order}}</h2>
+                        <p>Primary Order</p>
+                    </div>
+                    <h1 *ngIf="total_primary_order.total_primary_order > 0" class="dghe">&#x20B9; <span>{{total_primary_order.primary_order_sum |number:'1.0-0'}}/-</span></h1>
+                    <h1 *ngIf="total_primary_order.total_primary_order == 0" class="dghe">Create Primary Order</h1>
+
+                    
+                </div>
+            </div>
+
+            <div class="csfigure mb16" (click)="(last_attendence_data.start_time == '') && (currentTime>'09:00:00' && currentTime<'18:00:00') ? start_time3() : secondary_order()">
+                <div class="cs-left">
+                    <div class="counter">
+                        <h2>{{total_secondary_order.total_secondary_order}}</h2>
+                        <p>Secondary Order</p>
+                    </div>
+                    <!-- <h1 class="dghe" *ngIf="total_secondary_order.total_secondary_order == 0">Create Secondary Order</h1> -->
+                    <h1 *ngIf="total_secondary_order.total_secondary_order > 0" class="dghe">&#x20B9; <span>{{total_secondary_order.secondary_order_sum |number:'1.0-0'}}/-</span></h1>
+                    <h1 *ngIf="total_secondary_order.total_secondary_order == 0" class="dghe">Create Secondary Order</h1>
+                    
+                </div>
+            </div>
+            
+            
+            
+        </div>
+    </div>
+    
+    
+    
+    <div class="dscscounter pt6 pl9 pr9 pb9">
+        <a (click)="(last_attendence_data.start_time == '') && (currentTime>'09:00:00' && currentTime<'18:00:00')? start_time4() : goToDistributor()">
+            <div class="icon"><img src="assets/imgs/cs-network/customer.svg" alt=""></div>
+            <h1>{{total_distributor.total_distributor}}</h1>
+            <p>Channel Partner <i class="material-icons">keyboard_arrow_right</i></p>
+        </a>
+        <a (click)="(last_attendence_data.start_time == '') && (currentTime>'09:00:00' && currentTime<'18:00:00') ? start_time5() : goToDirectDealer()">
+            <div class="icon"><img src="assets/imgs/cs-network/fabricator.svg" alt=""></div>
+            <h1>{{total_direct_dealer.total_direct_dealer}}</h1>
+            <p>Direct Dealer <i class="material-icons">keyboard_arrow_right</i></p>
+        </a>
+        <a (click)="(last_attendence_data.start_time == '') && (currentTime>'09:00:00' && currentTime<'18:00:00')  ? start_time6() : goToDealer()">
+            <div class="icon"><img src="assets/imgs/cs-network/architect.svg" alt=""></div>
+            <h1>{{total_dealer.total_dealer}}</h1>
+            <p>Dealer <i class="material-icons">keyboard_arrow_right</i></p>
+        </a>
+        <!-- <a>
+            <div class="icon"><img src="assets/imgs/cs-network/contractor.svg" alt=""></div>
+            <h1>5</h1>
+            <p>Contractor <i class="material-icons">keyboard_arrow_right</i></p>
+        </a>
+        <a>
+            <div class="icon"><img src="assets/imgs/cs-network/builder.svg" alt=""></div>
+            <h1>52</h1>
+            <p>Builder <i class="material-icons">keyboard_arrow_right</i></p>
+        </a> -->
+    </div>
+</ion-content>
